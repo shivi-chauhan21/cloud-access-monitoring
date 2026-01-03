@@ -1,0 +1,40 @@
+# IDE & OS
+.vs/
+.vscode/
+.idea/
+*.swp
+*.log
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+bin/
+obj/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+
+# Logs & data
+logs/
+data/
+*.csv
+*.json
+
+# Sensitive / local configs
+secrets/
+config.local.*
+applicationhost.config
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc
+*.user
+*.suo
