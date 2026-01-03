@@ -1,0 +1,43 @@
+﻿@model File_Access_Monitoring.Models.FileDoc
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>File</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Link)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Link)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DownloadCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DownloadCount)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.FID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

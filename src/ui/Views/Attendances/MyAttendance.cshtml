@@ -1,0 +1,50 @@
+﻿@model IEnumerable<File_Access_Monitoring.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container d-flex align-items-center">
+    <h6 class="flex-fill">Employee Attendance</h6>
+</div>
+
+<hr />
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.CheckIn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CheckOut)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckIn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckOut)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

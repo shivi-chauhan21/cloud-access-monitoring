@@ -1,0 +1,115 @@
+﻿@model IEnumerable<File_Access_Monitoring.Models.FileDoc>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ }
+<div id="app">
+    <div class="container d-flex align-items-center">
+        <h6 class="flex-fill">Files</h6>
+        <a class="btn btn-success" asp-action="Create">+ Create New</a>
+    </div>
+
+    <hr />
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FileName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Link)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DownloadCount)
+                    </th>
+                    <th class="text-end col-auto">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Link)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DownloadCount)
+                        </td>
+                        <td class="text-end col-auto">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.FID"><i class="far fa-edit"></i> Edit</a>
+                                <a class="btn btn-warning" asp-action="ResetFileLink" asp-route-id="@item.FID"><i class="fa fa-repeat"></i> Link</a>
+                                <a class="btn btn-success" href="/FileAccessLogs/GetSingleFileAccessLogs/@item.FID"><i class="fas fa-chalkboard-teacher"></i> Logs</a>
+                                <a class="btn btn-success" asp-action="FileAccess" asp-route-id="@item.FID"><i class="fas fa-user-check"></i> Access</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.FID"><i class="fas fa-times"></i> Delete</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<script>
+
+    const app = Vue.createApp({
+        data() {
+            return {
+
+                }
+        }, methods: {
+
+            ResetLink(FID,i) {
+
+                 console.log(FID);
+
+                $.get("/ResetFileLink/"+FID).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+
+
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+            },
+            CheckOut() {
+                var data = {
+                    CheckOut: new Date().toLocaleString(),
+                    AID: this.Attendance.AID,
+                };
+                console.log(data);
+
+                $.post('@Url.Action("Edit", "Attendances")', data).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+            }
+
+
+        }
+    });
+    app.mount('#app');
+</script>
+
+
+

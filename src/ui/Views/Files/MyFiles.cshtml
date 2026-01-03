@@ -1,0 +1,105 @@
+﻿@model IEnumerable<File_Access_Monitoring.Models.FileDoc>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ }
+<div id="app">
+    <div class="container d-flex align-items-center">
+        <h6 class="flex-fill">Files Available for Download</h6>
+    </div>
+
+    <hr />
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FileName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Link)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DownloadCount)
+                    </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Link)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DownloadCount)
+                        </td>
+                         
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+<script>
+
+    const app = Vue.createApp({
+        data() {
+            return {
+
+                }
+        }, methods: {
+
+            ResetLink(FID,i) {
+
+                 console.log(FID);
+
+                $.get("/ResetFileLink/"+FID).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+
+
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+            },
+            CheckOut() {
+                var data = {
+                    CheckOut: new Date().toLocaleString(),
+                    AID: this.Attendance.AID,
+                };
+                console.log(data);
+
+                $.post('@Url.Action("Edit", "Attendances")', data).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+            }
+
+
+        }
+    });
+    app.mount('#app');
+</script>
+
+
+

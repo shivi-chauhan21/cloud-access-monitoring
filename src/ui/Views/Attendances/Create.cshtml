@@ -1,0 +1,92 @@
+﻿@model File_Access_Monitoring.Models.Attendance
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Attendance attendance = (Attendance)ViewBag.Attendance;
+}
+
+<div id="app">
+
+    <div class="container d-flex align-items-center">
+        <h6 class="flex-fill">Today Attendance</h6>
+         
+    </div>
+    <hr />
+    <div class="container" style="margin-bottom: 97px;">
+        <div class="card" style="width: 441px;">
+            <div class="card-body">
+                <h6 class="card-title">Today Status</h6>
+                <h6 class="card-title" style="margin: 19px;">Check In : {{(Attendance.CheckIn!=null)?new Date(Attendance.CheckIn).toLocaleString():'Not Set'}}</h6>
+                <h6 class="card-title" style="margin: 19px;">Check Out : {{(Attendance.CheckOut!=null)?new Date(Attendance.CheckOut).toLocaleString():'Not Set'}}</h6>
+                <h6 class="card-title" style="margin: 19px;">Duration  (HH:MM) : {{Attendance.Hours}} : {{Attendance.Minutes % 60}} </h6>
+
+                <div v-if="Attendance.CheckIn==null" class="d-lg-flex align-items-lg-center mt-2">
+                    <button class="btn btn-success flex-fill" v-on:click="CheckIn()" type="button">Check In</button>
+                </div>
+                <div v-if="Attendance.CheckIn!=null && Attendance.CheckOut==null" class="d-lg-flex align-items-lg-center mt-2">
+                    <button v-on:click="CheckOut()" class="btn btn-danger flex-fill" type="button">Check Out</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+<script>
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                Attendance: @Html.Raw(Json.Serialize(attendance))
+            }
+        }, methods: {
+            click() { this.ShowPanel = 'SignUp'; this.message = "hellooooo"; },
+
+            CheckIn() {
+
+                var data = { CheckIn: new Date().toLocaleString() };
+                console.log(data);
+                
+                $.post('@Url.Action("Create", "Attendances")', data).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+                    
+
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+             },
+            CheckOut(){
+                var data = { 
+                    CheckOut: new Date().toLocaleString(),
+                    AID: this.Attendance.AID,
+                };
+                console.log(data);
+                
+                $.post('@Url.Action("Edit", "Attendances")', data).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+            }
+            
+
+        }
+    });
+    app.mount('#app');
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,40 +1,37 @@
-# IDE & OS
+# Build outputs
+bin/
+obj/
+
+# Visual Studio / Rider / VS Code
 .vs/
 .vscode/
 .idea/
-*.swp
+
+# User-specific files
+*.user
+*.csproj.user
+*.suo
+
+# Publish profiles
+*.pubxml
+*.pubxml.user
+
+# Logs
 *.log
+
+# OS generated files
 .DS_Store
 Thumbs.db
 
-# Build artifacts
-bin/
-obj/
-dist/
-build/
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Environment / secrets
 .env
-.venv/
+secrets.json
 
-# Logs & data
-logs/
-data/
-*.csv
-*.json
+# Node 
+node_modules/
 
-# Sensitive / local configs
-secrets/
-config.local.*
-applicationhost.config
+# Test results
+TestResults/
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Misc
-*.user
-*.suo
+# Coverage
+coverage/

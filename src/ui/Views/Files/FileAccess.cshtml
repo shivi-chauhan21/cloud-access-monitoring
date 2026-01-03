@@ -1,0 +1,122 @@
+﻿@model File_Access_Monitoring.Models.FileDoc
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<User> Users = (List<User>)ViewBag.Users;
+}
+
+
+
+<div id="app">
+    <div class="container d-flex align-items-center">
+        <h6 class="flex-fill">File Access</h6>
+    </div>
+
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h4>File</h4>
+                            <hr />
+                            <dl class="row">
+                                <dt class="col-sm-4">
+                                    @Html.DisplayNameFor(model => model.FileName)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.FileName)
+                                </dd>
+                                <dt class="col-sm-4">
+                                    @Html.DisplayNameFor(model => model.CreatedOn)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.CreatedOn)
+                                </dd>
+                                <dt class="col-sm-4">
+                                    @Html.DisplayNameFor(model => model.Link)
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.Link)
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Downloads
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Html.DisplayFor(model => model.DownloadCount)
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col d-lg-flex align-items-lg-center">
+                            <h4 class="flex-fill">Grant File Access to User</h4>
+                            <button class="btn btn-success" v-on:click="Save()" type="button">Save</button>
+                        </div>
+                        <h6 class="text-muted card-subtitle mb-2">Tab to select</h6>
+                        <br />
+                        <ul class="list-group">
+                            <li :class="SelectedUIDs.includes(User.UID)?'list-group-item-success':''" role="button" v-on:click="AddToList(User.UID)" v-for="(User,i) in Users" class="list-group-item d-lg-flex align-items-lg-center">
+                                <span class="flex-fill">{{User.UserName}} - {{User.Email}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+
+    const app = Vue.createApp({
+        setup() {
+        
+
+        },
+        data() {
+            return {
+                Users: @Html.Raw(Json.Serialize(Users)),
+                File: @Html.Raw(Json.Serialize(this.Model)),
+                SelectedUIDs: @Html.Raw(Json.Serialize(this.Model.UIDs)),
+                
+            }
+        },
+        methods: 
+        {
+
+            AddToList(UID) {
+                if (!this.SelectedUIDs.includes(UID)) this.SelectedUIDs.push(UID);
+                else this.SelectedUIDs.splice(this.SelectedUIDs.indexOf(UID), 1);
+                console.log(this.SelectedUIDs);
+            },
+            Save() {
+                console.log(this.SelectedUIDs); 
+                //return;
+                var data = { FID:this.File.FID, SelectedUIDs: this.SelectedUIDs };
+                
+                
+                    
+                $.post('@Url.Action("UpdateFileAccess", "Files")', data).then((res, status) => {
+                    console.log(res);
+                    this.Attendance = res;
+
+                }, (err) => {
+                    //if (err.status == 404) alert(res);
+                    console.log(JSON.stringify(err));
+                });
+            },
+
+        }
+    });
+    app.mount('#app');
+</script>

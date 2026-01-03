@@ -1,0 +1,8 @@
+body {
+    background: url("../img/6372460_3227627.jpg") space, rgba(255,255,255,0.85);
+    background-blend-mode: lighten;
+    font-size: 14px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}

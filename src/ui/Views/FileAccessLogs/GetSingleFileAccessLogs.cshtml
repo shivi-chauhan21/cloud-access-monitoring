@@ -1,0 +1,62 @@
+﻿@model IEnumerable<File_Access_Monitoring.Models.FileAccessLog>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container d-flex align-items-center">
+    <h6 class="flex-fill">FileAccessLog</h6>
+    <a class="btn btn-success" href="/Files/Index">+ Back to List</a>
+</div>
+
+<hr />
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Link)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccessOn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccessType)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Link)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccessOn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccessType)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
